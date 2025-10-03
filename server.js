@@ -27,6 +27,11 @@ function tryMatch(mode) {
     // Emit matched to both peers
     io.to(peer1.id).emit("matched", { peerId: peer2.id, mode, room });
     io.to(peer2.id).emit("matched", { peerId: peer1.id, mode, room });
+
+    // ✅ NEW: Emit peers-in-room so frontend can create WebRTC offers
+    const peersInRoom = [peer1.id, peer2.id];
+    io.to(peer1.id).emit('peers-in-room', peersInRoom);
+    io.to(peer2.id).emit('peers-in-room', peersInRoom);
   }
 }
 
